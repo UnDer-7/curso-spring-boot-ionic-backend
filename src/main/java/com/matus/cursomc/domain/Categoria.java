@@ -2,12 +2,23 @@ package com.matus.cursomc.domain;
 
 import java.io.Serializable;
 
-// Serializable: Faz com q os obj da classa possam ser convertidos em bytes,
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+// Serializable ==> Faz com q os obj da classa possam ser convertidos em bytes,
 // com isso eles podem ser transefiros para arquivos, navegar na rede etc.
+//Entity ==> Cria uma tabela no BD com os campos da classe
+@Entity
 public class Categoria implements Serializable{ 
 	// Quando usar o Serializable tem q utilzar o serialVersionUID
 	private static final long serialVersionUID = 1L;
 	
+	//@Id e @GeneratedValue ==> Gera uma chave primaria no BD
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	
