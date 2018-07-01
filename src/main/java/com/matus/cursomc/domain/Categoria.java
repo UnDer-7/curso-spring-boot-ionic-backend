@@ -1,27 +1,33 @@
 package com.matus.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToMany;
 
 // Serializable ==> Faz com q os obj da classa possam ser convertidos em bytes,
 // com isso eles podem ser transefiros para arquivos, navegar na rede etc.
 //Entity ==> Cria uma tabela no BD com os campos da classe
 @Entity
-public class Categoria implements Serializable{ 
+public class Categoria implements Serializable {
 	// Quando usar o Serializable tem q utilzar o serialVersionUID
 	private static final long serialVersionUID = 1L;
-	
-	//@Id e @GeneratedValue ==> Gera uma chave primaria no BD
+
+	// @Id e @GeneratedValue ==> Gera uma chave primaria no BD
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
+
+	// Uma Categoria pode ter varios produtos, por isso cria uma array
+	@ManyToMany(mappedBy="categorias")
+	private List<Produto> produtos = new ArrayList<>();
+
 	public Categoria() {
 	}
 
@@ -45,6 +51,14 @@ public class Categoria implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	@Override
@@ -71,4 +85,5 @@ public class Categoria implements Serializable{
 			return false;
 		return true;
 	}
+
 }
