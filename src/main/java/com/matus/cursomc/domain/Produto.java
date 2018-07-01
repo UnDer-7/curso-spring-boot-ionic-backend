@@ -12,29 +12,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-public class Produto implements Serializable{
+public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private Double preco;
-	
+
 	// Um Produto poder ter mais de uma categoria.
-	//Quando a relacao é muitos pra muitos usa o ManyToMany, pra criar a terceira tabela q vai armezar os ID
+	// Quando a relacao é muitos pra muitos usa o ManyToMany, pra criar a terceira
+	// tabela q vai armezar os ID
+	@JsonBackReference // @JsonBackReference ==> Como o outro lado ja foi buscado os objs pelo
+						// @JsonManagedReference, ele vai omitir a lista de produtos
 	@ManyToMany
-	@JoinTable(name= "PRODUTO_CATEGORIA",
-		joinColumns = @JoinColumn(name = "produto_id"),
-		inverseJoinColumns = @JoinColumn(name = "categoria_id")
-			)
+	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	// JoitTable ==> 'name=': O nome da tabela q vai ser gerada no BD
-	//joinColumns = @JoinColumn(name = ""): O nome da PK q vai ser gerada
-	// inverseJoinColumns = @JoinColumn(name = ""): O nome da PK vai ser referenciada
-	
+	// joinColumns = @JoinColumn(name = ""): O nome da PK q vai ser gerada
+	// inverseJoinColumns = @JoinColumn(name = ""): O nome da PK vai ser
+	// referenciada
+
 	private List<Categoria> categorias = new ArrayList<>();
-	
+
 	public Produto() {
 	}
 
@@ -101,5 +104,5 @@ public class Produto implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }
