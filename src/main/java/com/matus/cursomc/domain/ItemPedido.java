@@ -5,9 +5,12 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	// Tem q criar outra classe (Tabela) pra armazenar as 2 PKs,
+	@JsonIgnore//==> Vai ignorar tudo de ItemPedidoPK
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
@@ -29,6 +32,7 @@ public class ItemPedido implements Serializable {
 		this.id.setProduto(produto);
 	}
 	
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
