@@ -2,6 +2,8 @@ package com.matus.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -30,9 +33,13 @@ public class Pedido implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="endereco_de_entrega_id")
-	private Endereco endereco;
-
-	public void Pedio() {
+	private Endereco enderecoDeEntrega;
+	
+	// A classe pedido tem q conhecer os itens associados a ela
+	@OneToMany(mappedBy="id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
+	
+	public Pedido() {
 	}
 
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco endereco) {
@@ -40,7 +47,7 @@ public class Pedido implements Serializable {
 		this.id = id;
 		this.instante = instante;
 		this.cliente = cliente;
-		this.endereco = endereco;
+		this.enderecoDeEntrega = endereco;
 	}
 
 	public Integer getId() {
@@ -75,12 +82,12 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public Endereco getEnderecoDeEntrega() {
+		return enderecoDeEntrega;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEnderecoDeEntrega(Endereco endereco) {
+		this.enderecoDeEntrega = endereco;
 	}
 
 	@Override
@@ -91,6 +98,14 @@ public class Pedido implements Serializable {
 		return result;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+	
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -107,6 +122,7 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
+
 	
 	
 }

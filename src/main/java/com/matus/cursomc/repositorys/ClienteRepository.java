@@ -1,4 +1,4 @@
-package com.matus.cursomc.Repositorys;
+package com.matus.cursomc.repositorys;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

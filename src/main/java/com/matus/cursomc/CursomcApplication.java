@@ -8,19 +8,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.matus.cursomc.Repositorys.CategoriaRepository;
-import com.matus.cursomc.Repositorys.CidadeRepository;
-import com.matus.cursomc.Repositorys.ClienteRepository;
-import com.matus.cursomc.Repositorys.EnderecoRepository;
-import com.matus.cursomc.Repositorys.EstadoRepository;
-import com.matus.cursomc.Repositorys.PagamentoRepository;
-import com.matus.cursomc.Repositorys.PedidoRepository;
-import com.matus.cursomc.Repositorys.ProdutoRepository;
 import com.matus.cursomc.domain.Categoria;
 import com.matus.cursomc.domain.Cidade;
 import com.matus.cursomc.domain.Cliente;
 import com.matus.cursomc.domain.Endereco;
 import com.matus.cursomc.domain.Estado;
+import com.matus.cursomc.domain.ItemPedido;
 import com.matus.cursomc.domain.Pagamento;
 import com.matus.cursomc.domain.PagamentoComBoleto;
 import com.matus.cursomc.domain.PagamentoComCartao;
@@ -28,6 +21,15 @@ import com.matus.cursomc.domain.Pedido;
 import com.matus.cursomc.domain.Produto;
 import com.matus.cursomc.domain.enums.EstadoPagamento;
 import com.matus.cursomc.domain.enums.TipoCliente;
+import com.matus.cursomc.repositorys.CategoriaRepository;
+import com.matus.cursomc.repositorys.CidadeRepository;
+import com.matus.cursomc.repositorys.ClienteRepository;
+import com.matus.cursomc.repositorys.EnderecoRepository;
+import com.matus.cursomc.repositorys.EstadoRepository;
+import com.matus.cursomc.repositorys.ItemPedidoRepository;
+import com.matus.cursomc.repositorys.PagamentoRepository;
+import com.matus.cursomc.repositorys.PedidoRepository;
+import com.matus.cursomc.repositorys.ProdutoRepository;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner{
@@ -49,6 +51,8 @@ public class CursomcApplication implements CommandLineRunner{
 	private PedidoRepository pedRepo;
 	@Autowired
 	private PagamentoRepository pagRepo;
+	@Autowired
+	private ItemPedidoRepository itemPedRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -117,5 +121,17 @@ public class CursomcApplication implements CommandLineRunner{
 		pedRepo.saveAll(Arrays.asList(ped1, ped2));
 		pagRepo.saveAll(Arrays.asList(pagto1, pagto2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedRepo.saveAll(Arrays.asList(ip1,ip2,ip3));
 	}
 }

@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.matus.cursomc.Repositorys.ClienteRepository;
 import com.matus.cursomc.domain.Cliente;
+import com.matus.cursomc.repositorys.ClienteRepository;
 import com.matus.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
