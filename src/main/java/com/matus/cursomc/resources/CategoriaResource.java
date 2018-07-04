@@ -27,7 +27,7 @@ public class CategoriaResource {
 	
 	// ResponseEntity<?> ==> Coisa do Spring, armazena varias informacoes de uma respota HTTP para o servico REST
 	// @PathVariable ==> Fala q o Integer id vai ser id da URL (value="/{id}") 
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);	
 	}
@@ -43,9 +43,16 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+	//Update tem q pegar o obj pelo @RequestBody, e depois inserir o dado no obj pelo @PathVariable
 	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
 		obj.setId(id);
 		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }
