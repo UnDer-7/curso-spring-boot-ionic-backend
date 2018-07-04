@@ -23,8 +23,8 @@ public class ClienteResource {
 	
 	// ResponseEntity<?> ==> Coisa do Spring, armazena varias informacoes de uma respota HTTP para o servico REST
 	// @PathVariable ==> Fala q o Integer id vai ser id da URL (value="/{id}") 
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Cliente obj = service.buscar(id);
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
+		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }
