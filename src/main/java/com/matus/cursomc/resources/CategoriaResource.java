@@ -4,11 +4,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +41,10 @@ public class CategoriaResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	// @RequestBody ==> Vai criar o Objeto apartir do JSon.
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	// @Valid ==> Valida o campo
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO){
+		// Recebe um CategoriaDTO é pasa para Categoria
+		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		// uri ==> Vai criar a url pra acessar a categora
 		// fromCurrentRequest() ==> Pega a url usada como padrao, no caso: http://localhost:8081/pedidos/
@@ -50,7 +54,8 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	//Update tem q pegar o obj pelo @RequestBody, e depois inserir o dado no obj pelo @PathVariable
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id){
+		Categoria obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

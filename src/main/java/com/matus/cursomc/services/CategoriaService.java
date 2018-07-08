@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.matus.cursomc.domain.Categoria;
+import com.matus.cursomc.dto.CategoriaDTO;
 import com.matus.cursomc.repositorys.CategoriaRepository;
 import com.matus.cursomc.services.exception.DataIntegrityException;
 import com.matus.cursomc.services.exception.ObjectNotFoundException;
@@ -57,5 +58,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest =  PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	// Apartir de um obj categoria vai contruir um obj DTO
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 }
