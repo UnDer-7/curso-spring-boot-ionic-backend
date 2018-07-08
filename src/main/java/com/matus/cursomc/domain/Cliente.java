@@ -50,6 +50,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
+		// Para quando for da Update ele suportar um tipo null, pq CPF e TipoCliente não pode atualizar.
 		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 

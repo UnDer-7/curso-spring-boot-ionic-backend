@@ -35,11 +35,14 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	
-	public Categoria update(Categoria obj) {
+	public Categoria update (Categoria obj) {
+		// newObj vai buscar todos os dados no BD
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
 		//Quando o ID é null ele insere, quando ele existir ele atualiza o obj
-		find(obj.getId());
-		return repo.save(obj);
+		return repo.save(newObj);
 	}
+	
 	
 	public void delete(Integer id) {
 		find(id);
@@ -63,5 +66,11 @@ public class CategoriaService {
 	// Apartir de um obj categoria vai contruir um obj DTO
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		// Os dados no BD foi atualizado com os novos dados q foram passados no obj, 
+		//pega o novo obj q fizemeos apartir do BD(newObj) e atualiza com os novos dado q foi passado na requisição(obj ) 
+		newObj.setNome(obj.getNome());
 	}
 }

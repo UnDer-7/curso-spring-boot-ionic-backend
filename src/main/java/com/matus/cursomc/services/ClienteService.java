@@ -63,7 +63,8 @@ public class ClienteService {
 	}
 	
 	private void updateData(Cliente newObj, Cliente obj) {
-		// Os dados no BD foi atualizado com os novos dados q foram passados no obj
+		// Os dados no BD foi atualizado com os novos dados q foram passados no obj, 
+		//pega o novo obj q fizemeos apartir do BD(newObj) e atualiza com os novos dado q foi passado na requisição(obj ) 
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}
