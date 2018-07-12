@@ -2,7 +2,10 @@ package com.matus.cursomc.dto;
 
 import java.io.Serializable;
 
+import com.matus.cursomc.services.exception.validation.ClienteInsert;
+
 //Apartir dessa classa q é possivel salvar no BD, pq Cliente tem varias dependecias
+@ClienteInsert
 public class ClienteNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
