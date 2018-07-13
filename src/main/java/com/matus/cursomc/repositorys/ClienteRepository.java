@@ -12,4 +12,9 @@ import com.matus.cursomc.domain.Cliente;
 // B: Tipo de atributo identificador do obj, no caso é o Integer q é o ID
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	//---------A classe REPOSITORY vai acessar o BD---------
+	
+	//findBy ==> Parada do SpringData, faz uma busca no BD por Email
+	//Transactional ==> Vai precisa ser envolvida com uma transação de BD
+	@org.springframework.transaction.annotation.Transactional(readOnly = true)
+	Cliente findByEmail(String email);
 }
