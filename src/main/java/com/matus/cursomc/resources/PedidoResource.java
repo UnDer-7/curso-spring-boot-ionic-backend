@@ -1,14 +1,17 @@
 package com.matus.cursomc.resources;
 
+import com.matus.cursomc.domain.Categoria;
+import com.matus.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.matus.cursomc.domain.Pedido;
 import com.matus.cursomc.services.PedidoService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController // Criou umas classe Rest
 @RequestMapping(value="/pedidos")// O URL q vai ser usado /categirias
@@ -27,4 +30,17 @@ public class PedidoResource {
 		Pedido obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	// @RequestBody ==> Vai criar o Objeto apartir do JSon.
+	// @Valid ==> Valida o campo
+	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj){
+		// Recebe um CategoriaDTO é pasa para Categoria
+		obj = service.insert(obj);
+		// uri ==> Vai criar a url pra acessar a categora
+		// fromCurrentRequest() ==> Pega a url usada como padrao, no caso: http://localhost:8081/pedidos/
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
 }
