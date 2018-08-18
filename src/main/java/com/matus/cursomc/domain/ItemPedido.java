@@ -9,13 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ItemPedido implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     // Tem q criar outra classe (Tabela) pra armazenar as 2 PKs,
     @JsonIgnore//==> Vai ignorar tudo de ItemPedidoPK
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
     // Quando usar o Serializable tem q utilzar o serialVersionUID
-    private static final long serialVersionUID = 1L;
     private Double desconto;
     private Integer quantidade;
     private Double preco;
@@ -46,6 +47,7 @@ public class ItemPedido implements Serializable {
     public void setPedido(Pedido pedido){
         id.setPedido(pedido );
     }
+
     public Produto getProduto() {
         return id.getProduto();
     }
@@ -111,5 +113,13 @@ public class ItemPedido implements Serializable {
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "ItemPedido{" +
+                "id=" + id +
+                ", desconto=" + desconto +
+                ", quantidade=" + quantidade +
+                ", preco=" + preco +
+                '}';
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.matus.cursomc.domain.Pedido;
 import com.matus.cursomc.repositorys.PedidoRepository;
 import com.matus.cursomc.services.exception.ObjectNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PedidoService {
@@ -30,7 +31,7 @@ public class PedidoService {
     private PagamentoRepository pagamentoRepository;
 
 	@Autowired
-	private ProdutoRepository produtoRepository;
+    private ProdutoService produtoService;
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
@@ -42,6 +43,7 @@ public class PedidoService {
 				"Objeto nao encontrado! Id: "+id+", Tipo: "+ Pedido.class.getName()));
 	}
 
+	@Transactional
     public Pedido insert(Pedido obj){
 	    obj.setId(null);
 	    obj.setInstante(new Date());
@@ -56,9 +58,8 @@ public class PedidoService {
 	pagamentoRepository.save(obj.getPagamento());
 	for(ItemPedido ip: obj.getItens()){
 	    ip.setDesconto(0.0);
-//        ip.setPreco(produtoRepository.findOne(ip.getProduto().getId()).getPreco());
-        ip.setPreco(produtoRepository.findOne(ip.getProduto().getId()).getPreco());
-	    ip.setPedido(obj);
+        ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+        ip.setPedido(obj);
 	}
 	itemPedidoRepository.saveAll(obj.getItens());
 	return obj;
