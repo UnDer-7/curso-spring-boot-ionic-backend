@@ -18,6 +18,8 @@ import com.matus.cursomc.repositorys.PedidoRepository;
 import com.matus.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Email;
+
 @Service
 public class PedidoService {
 	
@@ -39,6 +41,9 @@ public class PedidoService {
 
 	@Autowired
 	private ClienteService clienteService;
+
+	@Autowired
+	private EmailService emailService;
 
 	//Criar uma operacao q busca uma categoria por codigo
 	public Pedido find(Integer id) {
@@ -68,7 +73,7 @@ public class PedidoService {
         ip.setPedido(obj);
 	}
 	itemPedidoRepository.saveAll(obj.getItens());
-	System.out.println(obj);
+	emailService.sendOrderConfirmationEmail(obj);
 	return obj;
 	}
 }
