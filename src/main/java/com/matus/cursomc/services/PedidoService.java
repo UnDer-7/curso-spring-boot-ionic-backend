@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.matus.cursomc.domain.ItemPedido;
 import com.matus.cursomc.domain.PagamentoComBoleto;
 import com.matus.cursomc.domain.enums.EstadoPagamento;
+import com.matus.cursomc.repositorys.ClienteRepository;
 import com.matus.cursomc.repositorys.ItemPedidoRepository;
 import com.matus.cursomc.repositorys.PagamentoRepository;
 import com.matus.cursomc.repositorys.ProdutoRepository;
@@ -36,6 +37,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
+	@Autowired
+	private ClienteService clienteService;
+
 	//Criar uma operacao q busca uma categoria por codigo
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -47,6 +51,7 @@ public class PedidoService {
     public Pedido insert(Pedido obj){
 	    obj.setId(null);
 	    obj.setInstante(new Date());
+	    obj.setCliente(clienteService.find(obj.getCliente().getId()));
 	    obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 	    //Associando Pagamento com Pedido
 	    obj.getPagamento().setPedido(obj);
@@ -58,10 +63,12 @@ public class PedidoService {
 	pagamentoRepository.save(obj.getPagamento());
 	for(ItemPedido ip: obj.getItens()){
 	    ip.setDesconto(0.0);
-        ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+	    ip.setProduto(produtoService.find(ip.getProduto().getId()));
+        ip.setPreco(ip.getProduto().getPreco());
         ip.setPedido(obj);
 	}
 	itemPedidoRepository.saveAll(obj.getItens());
+	System.out.println(obj);
 	return obj;
 	}
 }

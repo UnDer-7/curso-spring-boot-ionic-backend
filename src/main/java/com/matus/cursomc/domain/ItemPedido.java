@@ -1,6 +1,8 @@
 package com.matus.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -44,15 +46,15 @@ public class ItemPedido implements Serializable {
 
     //Com esses setPedio e setProduto a classe ItemPedido é capaz de definir o produto e pedido que estarão associados a ele
     //Quando nao tinha os Sets era so posivel definir pelo Construtor, mas o framework ñ usa o frameWork, ele utiliza o metodo SETT
-    public void setPedido(Pedido pedido){
-        id.setPedido(pedido );
+    public void setPedido(Pedido pedido) {
+        id.setPedido(pedido);
     }
 
     public Produto getProduto() {
         return id.getProduto();
     }
 
-    public void setProduto(Produto produto){
+    public void setProduto(Produto produto) {
         id.setProduto(produto);
     }
 
@@ -115,11 +117,16 @@ public class ItemPedido implements Serializable {
 
     @Override
     public String toString() {
-        return "ItemPedido{" +
-                "id=" + id +
-                ", desconto=" + desconto +
-                ", quantidade=" + quantidade +
-                ", preco=" + preco +
-                '}';
+        final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","BR"));
+        final StringBuilder sb = new StringBuilder();
+        sb.append(getProduto().getNome());
+        sb.append(", Quantidade: ");
+        sb.append(getQuantidade());
+        sb.append(", Preço unitário: ");
+        sb.append(nf.format(getPreco()));
+        sb.append(", Subtotal: ");
+        sb.append(nf.format(getSubTotal()));
+        sb.append("\n");
+        return sb.toString();
     }
 }
