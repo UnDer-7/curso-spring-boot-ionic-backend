@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.matus.cursomc.services.exception.validation.ClienteInsert;
 
+import javax.validation.constraints.NotEmpty;
+
 //Apartir dessa classa q é possivel salvar no BD, pq Cliente tem varias dependecias
 @ClienteInsert
 public class ClienteNewDTO implements Serializable{
@@ -13,6 +15,9 @@ public class ClienteNewDTO implements Serializable{
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
+
+	@NotEmpty
+	private String senha;
 	
 	private String logradouro;
 	private String numero;
@@ -132,4 +137,12 @@ public class ClienteNewDTO implements Serializable{
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }
