@@ -1,6 +1,7 @@
 package com.matus.cursomc.config;
 
 import com.matus.cursomc.security.JWTAuthenticationFilter;
+import com.matus.cursomc.security.JWTAuthorizationFilter;
 import com.matus.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //anyRequest() ==> Para qualquer outro URL vai precisar de autenticação
         http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+
         //Para não criar sessao de usuario
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
