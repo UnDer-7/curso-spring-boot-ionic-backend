@@ -3,6 +3,9 @@ package com.matus.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.matus.cursomc.domain.enums.Perfil;
+import com.matus.cursomc.security.UserSS;
+import com.matus.cursomc.services.exception.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -39,6 +42,12 @@ public class ClienteService {
 
 	// Criar uma operacao q busca uma categoria por codigo
 	public Cliente find(Integer id) {
+
+	    //Pegar usuario logado;
+	    UserSS user = UserService.authnticated();
+	    if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));

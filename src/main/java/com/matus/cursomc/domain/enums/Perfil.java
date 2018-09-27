@@ -30,5 +30,6 @@ public enum Perfil {
 			}
 		}
 		throw new IllegalArgumentException("ID invalido: "+ cod);
+
 	}
 }

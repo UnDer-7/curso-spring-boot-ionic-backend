@@ -4,6 +4,7 @@ import com.matus.cursomc.security.JWTAuthenticationFilter;
 import com.matus.cursomc.security.JWTAuthorizationFilter;
 import com.matus.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -34,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
     @Autowired
+    @Qualifier("userDetailsServiceImpl")
     //Injeta a inteface, o spring procura um impl
     private UserDetailsService userDetailsService;
 
