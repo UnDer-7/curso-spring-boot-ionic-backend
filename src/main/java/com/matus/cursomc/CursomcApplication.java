@@ -3,6 +3,7 @@ package com.matus.cursomc;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import com.matus.cursomc.services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,11 +35,15 @@ import com.matus.cursomc.repositorys.ProdutoRepository;
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
+    @Autowired
+    private S3Service s3Service;
+
     public static void main(String[] args) {
         SpringApplication.run(CursomcApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
+        s3Service.uploadFile("C:\\Users\\mateu\\Downloads\\manga.jpg");
     }
 }
