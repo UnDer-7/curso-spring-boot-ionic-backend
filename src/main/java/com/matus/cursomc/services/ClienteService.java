@@ -1,5 +1,6 @@
 package com.matus.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ import com.matus.cursomc.repositorys.ClienteRepository;
 import com.matus.cursomc.repositorys.EnderecoRepository;
 import com.matus.cursomc.services.exception.DataIntegrityException;
 import com.matus.cursomc.services.exception.ObjectNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ClienteService {
@@ -39,6 +41,9 @@ public class ClienteService {
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
+
+	@Autowired
+	private S3Service s3Service;
 
 	// Criar uma operacao q busca uma categoria por codigo
 	public Cliente find(Integer id) {
@@ -120,4 +125,8 @@ public class ClienteService {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile){
+	    return s3Service.uploadFile(multipartFile);
+    }
 }
